@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.bootcdn.net/ajax/libs/vue/3.0.2/vue.global.js"></script>
+  <title>provide和inject多级组件传值</title>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script>
+    /* 
+      利用provide和inject来跨级传递组件
+    */
+    const app = Vue.createApp({
+      data() {
+        return {
+          house: '北京一套四合院'
+        }
+      },
+      provide: {
+        villa: '北京一套别野'
+      },
+      template: `
+        <h2>我要把四合院传给后辈</h2>
+        <Son :house="house"/>
+      `
+    });
+    app.component("Son", {
+      props: ["house"],
+      template: `
+        <h2>我是子组件，我要把房子再传给我儿子</h2>
+        <Grandson :house="house"/>
+      `
+    });
+    app.component("Grandson", {
+      props: ["house"],
+      inject: ["villa"],
+      template: `
+        <h2>我是孙组件，坐等拆迁,接收{{house}}</h2>
+        <h2>我是孙组件，又要拆迁,接收{{villa}}</h2>
+      `
+    })
+    app.mount("#app");
+  </script>
+</body>
+
+</html>

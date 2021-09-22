@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.bootcdn.net/ajax/libs/vue/3.0.2/vue.global.js"></script>
+  <title>Non-props使用技巧</title>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script>
+    /* 
+      Non-prop属性，它就是父组件向子组件传递参数的时候，子组件不写任何的接受方法，这个时候父组件就会直接把属性完全复制给子组件，子组件也是可以得到属性值的。
+      有时候不想接受参数，也不想让Non-props属性起作用，这时候可以在子组件上使用inheritAttrs设置为false
+    */
+    const app = Vue.createApp({
+      template: `
+        <h2>ayaan.com</h2>
+        <Hello msg="ayaan"/>
+        <Hello style="color:red"/>
+        <Hello style="color:red" msg="ayaan.com"/>
+      `
+    })
+    app.component("Hello", {
+      template: `
+        <h3>Hello World</h3>
+        <h3 v-bind="$attrs">Hello World</h3>
+        <h3 :style="$attrs.style">Hello World</h3>
+      `
+    })
+    app.mount("#app");
+  </script>
+</body>
+
+</html>

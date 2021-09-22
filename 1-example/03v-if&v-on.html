@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://unpkg.com/vue@next"></script>
+  <title>v-if&v-on</title>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script>
+    Vue.createApp({
+      data() {
+        return {
+          counter: 0,
+          isShowInfos: false,
+          infos: '已经点够了，点那么多干嘛',
+          rest: '重新点'
+        }
+      },
+      methods: {
+        plusBtn() {
+          if (this.counter >= 10) {
+            this.isShowInfos = true;
+          } else {
+            this.counter += 1;
+          }
+        },
+        minusBtn() {
+          if (this.counter <= 0) {
+            this.isShowInfos = true;
+          } else {
+            this.counter -= 1;
+          }
+        },
+        restBtn() {
+          this.isShowInfos = false;
+          this.counter = 0;
+        }
+      },
+      template: `<div>
+        <div v-if="!isShowInfos">{{counter}}</div>
+        <button v-if="!isShowInfos" v-on:click='plusBtn'>plus</button>&nbsp;
+        <button v-if="!isShowInfos" v-on:click='minusBtn'>minus</button>
+        <div v-if="isShowInfos">{{infos}}</div>
+        <button v-if="isShowInfos" v-on:click='restBtn'>{{rest}}</button>
+        </div>
+      `
+    }).mount('#app')
+  </script>
+</body>
+
+</html>

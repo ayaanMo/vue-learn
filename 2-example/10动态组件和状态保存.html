@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.bootcdn.net/ajax/libs/vue/3.0.2/vue.global.js"></script>
+  <title>动态组件和状态保存</title>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          showItem: "Vue"
+        }
+      },
+      methods: {
+        changeFrame() {
+          this.showItem = this.showItem === "Vue" ? "React" : "Vue"
+        }
+      },
+      template: `
+      <h2>请选择一个前端框架进行学习</h2>
+      <React v-show="showItem === 'React'"/>
+      <Vue v-show="showItem === 'Vue'"/>
+      <keep-alive>
+        <component :is="showItem" />
+      </keep-alive>
+      <button @click="changeFrame">切换前端框架</button>
+      `
+    });
+    app.component("React", {
+      template: `
+      <div>
+        <div>前端框架React</div>
+        <input />
+      </div>
+      `
+    });
+    app.component("Vue", {
+      template: `
+      <div>
+        <div>前端框架Vue</div>
+        <input />
+        </div>
+      `
+    });
+    app.mount("#app");
+  </script>
+</body>
+
+</html>

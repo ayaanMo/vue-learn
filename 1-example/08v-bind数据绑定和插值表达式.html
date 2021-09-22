@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>v-bind数据绑定和插值表达式</title>
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          message: '<i>ayaan.com</i>',
+          count: 0,
+          inputValue: ''
+        }
+      },
+      methods: {
+        click() {
+          console.log(this.message);
+          this.message = this.message === '<i>ayaan.com</i>' ? '<i>哎呦不错哦</i>' : '<i>ayaan.com</i>'
+        },
+        enter() {
+          if (this.inputValue && parseInt(this.inputValue) <= 10) {
+            this.count = parseInt(this.inputValue);
+            this.inputValue = '';
+          } else {
+            alert('不能输入超过10的数字')
+          }
+
+        }
+      },
+      template: `
+        <h2 v-html='message' v-on:click='click' v-once v-bind:title='message'></h2>
+        <input v-model='inputValue' v-on:keyup.enter='enter'/>
+        <div>{{count>5?'大':'小'}}</div>
+      `
+    })
+    app.mount('#app')
+  </script>
+</body>
+
+</html>

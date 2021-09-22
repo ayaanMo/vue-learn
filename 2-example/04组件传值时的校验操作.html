@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.bootcdn.net/ajax/libs/vue/3.0.2/vue.global.js"></script>
+  <title>组件传值时的校验操作</title>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script>
+    // 这里的所有验证都只会在控制台给出警告，而不会影响程序的运行
+    const app = Vue.createApp({
+      data() {
+        return {
+          name: "123",
+          age: 18,
+          sex: '',
+          hobby: 'ball'
+        }
+      },
+      methods: {
+
+      },
+      template: `
+        <h2>ayaan.com</h2>
+        <Foo :name="name"/>
+        <Boo :age="age"/>
+        <Bar />
+        <Far :hobby="hobby"/>
+      `
+    });
+    // 类型校验
+    app.component("Foo", {
+      props: {
+        name: String
+      },
+      template: `
+        <div>{{name}}</div>
+      `
+    });
+    // 必填校验
+    app.component("Boo", {
+      props: {
+        age: {
+          type: Number,
+          required: true
+        }
+      },
+      template: `
+        <div>{{age}}</div>
+      `
+    });
+    // 默认值 调用组件的时候不传递参数，则默认值为Female
+    app.component("Bar", {
+      props: {
+        sex: {
+          type: String,
+          default: "Female"
+        }
+      },
+      template: `
+        <div>{{sex}}</div>
+      `
+    });
+    // 精准校验-validator
+    app.component("Far", {
+      props: {
+        hobby: {
+          type: String,
+          validator: function (value) {
+            console.log(value);
+            return value.search("ball") != -1
+          },
+          default: "basketball"
+        }
+      },
+      template: `
+        <div>{{hobby}}</div>
+      `
+    });
+    app.mount("#app");
+  </script>
+</body>
+
+</html>

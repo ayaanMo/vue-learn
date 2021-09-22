@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>模板动态参数和阻止默认事件</title>
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          message: 'ayaan.com',
+          name: 'title',
+          event: 'click'
+        }
+      },
+      methods: {
+        click() {
+          this.message = this.message === 'ayaan.com' ? '哎呦不错' : 'ayaan.com'
+        },
+        submit(e) {
+          e.preventDefault();
+        },
+        submitStop(e) {
+          alert(123)
+
+        },
+        submitForward(e) {
+          alert(123)
+        }
+      },
+      // v-on:click 简写写法 @click
+      // v-bind:title 简写方法 :title
+      // 阻止默认事件
+      template: `
+        <h2 @click='click' :[name]='message'>{{message}}</h2>
+        <h2 @[event]='click' :[name]='message'><i>{{message}}</i></h2>
+        <form action="https://www.baidu.com/" @click='submit'>
+          <button type="submit">标准阻止默认事件</button>  
+        </form>
+        <form action="https://www.baidu.com/" @click.prevent='submitStop'>
+          <button type="submit">简写阻止默认事件</button>  
+        </form>
+        <form action="https://www.baidu.com/" @click='submitForward'>
+          <button type="submit">默认提交</button>  
+        </form>
+      `
+    });
+    app.mount('#app');
+  </script>
+</body>
+
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue中的侦听器监听器-watch</title>
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          price: 100,
+          count: 1,
+          message: 'ayaan.com',
+          sum: 0,
+          inputValue: '',
+          currentValue: 0
+        }
+      },
+      methods: {
+        click() {
+          this.message = this.message === 'ayaan.com' ? '哎呦不错' : 'ayaan.com'
+        },
+        buy() {
+          this.count++;
+        },
+        enter() {
+          this.currentValue = parseInt(this.inputValue);
+          this.inputValue = "";
+        }
+      },
+      computed: {
+        total() {
+          console.log('count changed');
+          return this.price * this.count;
+        }
+      },
+      /* 
+        1.计算属性computed必须返回一个值，而且在页面渲染的同时就会执行里边的业务逻辑，也就是会先执行一遍你写的业务逻辑，而watch只有发生变化时才会执行
+        也就是说值没有变化的时候它是不会执行的
+      */
+      watch: {
+        count(current, prev) {
+          console.log('count change');
+          console.log(current, 'current');
+          console.log(prev, 'prev');
+        },
+        currentValue(current, prev) {
+          this.sum += current;
+        }
+      },
+      template: `
+        <h1 @click='click'>{{message}}</h1>
+        <h2>{{total}}</h2>
+        <button @click="buy">买一下</button><br/>
+        <input v-model="inputValue" v-on:keyup.enter="enter"/>
+        <h3>当前值：{{currentValue}}</h3>
+        <h3>累计：{{sum}}</h3>
+      `
+    })
+    app.mount('#app')
+  </script>
+</body>
+
+</html>

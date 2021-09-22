@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.bootcdn.net/ajax/libs/vue/3.0.2/vue.global.js"></script>
+  <title>具名插槽简写和作用域插槽</title>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script>
+    /* 
+      在父模板中确定插槽位置时，使用v-slot:one这种方法，其实语法可以简写成#one
+    */
+    const app = Vue.createApp({
+      template: `
+        <Foo>
+          <template #one><div style="color:red" >Vue</div></template>
+          <template #two><div style="color:green">Angular</div></template>
+        </Foo>
+        <Bar/>
+        <Boo v-slot={item}>
+          <div>{{item}}</div>
+        </Boo>
+      `
+    });
+    app.component("Foo", {
+      template: `
+        <div>
+          <slot name="one"></slot>
+          <div>React</div>
+          <slot name="two"></slot>
+        </div>
+      `
+    })
+    app.component("Bar", {
+      data() {
+        return {
+          frames: ["angular", "vue", "react"]
+        }
+      },
+      template: `
+        <div>
+            <div v-for="(item,index) of frames">{{index}}-{{item}}</div>
+        </div>
+      `
+    });
+    app.component("Boo", {
+      data() {
+        return {
+          frames: ["angular", "vue", "react"]
+        }
+      },
+      template: `
+        <div>
+            <slot v-for="(item,index) of frames" :item="item"/>
+        </div>
+      `
+    });
+    app.mount("#app");
+  </script>
+</body>
+
+</html>

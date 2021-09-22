@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>表单数据的双绑定</title>
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script>
+    /* 
+      双向绑定：data中的变量改变时，绑定的数据会跟随变化，此为一项修改；当通过页面修改数据，data中的变量也随之改变，这就是另一项改变。两个彼此依存改变，就为双向数据绑定
+      数据双向绑定中的修饰符：lazy修饰符（懒更新修饰符） number修饰符（可以直接将文本框输入的内容转成数字类型） trim修饰符（可以去除前后空格）
+    */
+    const app = Vue.createApp({
+      data() {
+        return {
+          name: '',
+          students: [],
+          student: "",
+          message: ""
+        }
+      },
+      methods: {
+
+      },
+      template: `
+        <div>
+            <div>{{name}}</div>
+            <div><input v-model="name" /></div>
+            <div><textarea v-model="name"/></div>
+            <div>
+              {{students}}<br/>
+              James:<input type="checkbox" v-model="students" value="James"/>
+              Lucy:<input type="checkbox" v-model="students" value="Lucy"/>
+              Lily:<input type="checkbox" v-model="students" value="Lily"/>
+            </div>
+            <div>
+              {{student}}<br/>
+              James:<input type="radio" v-model="student" value="James"/>
+              Lucy:<input type="radio" v-model="student" value="Lucy"/>
+              Lily:<input type="radio" v-model="student" value="Lily"/>
+            </div>
+            <div>
+                {{name}}<br/>
+                <input type="checkbox" v-model="name" true-value="ayaan.com" false-value="哎呦不错哦"/>
+            </div>
+            <div>
+              <h1>双向绑定中的修饰符</h1>
+              {{message}}<br/>
+              懒更新修饰符Lazy:<input v-model.lazy="message" /><br/>
+              {{typeof message}}<br/>
+              懒更新修饰符Lazy:<input v-model.number="message" />
+            </div>
+        </div>
+      `
+    });
+    app.mount('#app')
+  </script>
+</body>
+
+</html>

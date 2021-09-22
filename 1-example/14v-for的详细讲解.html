@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>v-for的详细讲解</title>
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          list: [],
+          inputValue: '',
+          listObject: {
+            name: 'james',
+            age: 18,
+            sex: 'male'
+          },
+          listArray: ["james", 'alice', 'lucy', 'lily']
+        }
+      },
+      methods: {
+        addItems() {
+          this.list.push(this.inputValue);
+          this.inputValue = ''
+        }
+      },
+      /* 
+        因为v-for循环的优先级要高于v-if判断优先级，所以判断失效
+      */
+      template: `
+        <ul>
+          <li v-for="(value,key,index) in listObject" :key=key>{{value}}-{{key}}-{{index}}</li>  
+        </ul>
+        <input v-model='inputValue'/>&nbsp;
+        <button @click='addItems'>点击</button>
+        <ul>
+          <item v-for="(item,index) of list" :item = 'item' :index = 'index' :mainkey="item+index"/>  
+        </ul>
+        <span v-for="count in 10">{{count}}</span>
+        <ul>
+          <template v-for="(item,index) of listArray" :key="index+item" >
+            <li v-if="item!=='james'">
+            [{{index}}-{{item}}]
+          </li>
+          </template>
+        </ul>
+      `
+    });
+    app.component('item', {
+      props: ['item', 'index', 'mainkey'],
+      template: `
+        <li :key='mainkey'>{{index+1}}-{{item}}</li>
+      `
+    })
+    app.mount('#app');
+  </script>
+</body>
+
+</html>

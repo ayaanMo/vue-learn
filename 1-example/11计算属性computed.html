@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>计算属性computed</title>
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          message: 'ayaan.com',
+          price: 100,
+          count: 10
+        }
+      },
+      methods: {
+        click() {
+          this.message = this.message === 'ayaan.com' ? '哎呦不错哦' : 'ayaan.com'
+        },
+        getDateNow() {
+          return Date.now();
+        },
+        buy() {
+          this.count++;
+        }
+      },
+      computed: {
+        dateNow() {
+          return Date.now();
+        },
+        total() {
+          return this.price * this.count;
+        }
+      },
+      /**
+       *  1.方法methods：只要页面重新渲染，就会重新执行方法
+       *  2.计算属性computed：当计算属性依赖的内容发生变更时，才会重新执行计算
+      */
+      template: `
+        <h1 @click='click'>{{message}}</h1>
+        <h2>{{getDateNow()}}</h2>
+        <h2>{{dateNow}}</h2>
+        <h2>{{total}}</h2>
+        <button @click="buy">买一下</button>
+      `
+    });
+    app.mount('#app')
+  </script>
+</body>
+
+</html>

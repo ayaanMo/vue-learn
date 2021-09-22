@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://cdn.bootcdn.net/ajax/libs/vue/3.0.2/vue.global.js"></script>
+  <title>组件中插槽的使用Slot</title>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script>
+    /* 
+      父模板里调用的数据属性，使用的都是父模板里的数据
+      子模板里调用的数据属性，使用的都是子模板里的数据  
+    */
+    const app = Vue.createApp({
+      data() {
+        return {
+          msg: "ayaan.com"
+        }
+
+      },
+      template: `
+       <Bar><div style="color:red"><Foo><div style="color:red">热爱和平</div></Foo></div></Bar>
+       <Boo>
+          <div style="color:green;front-size:50px">
+            {{msg}}
+          </div>
+       </Boo>
+       <Foo><span style="color:red">react</span></Foo>
+       <Frame>
+        <template v-slot:one><div>1.angular</div></template>
+        <template v-slot:two><div>3.vue</div></template>        
+       </Frame>
+       `
+    })
+    app.component("Boo", {
+      data() {
+        return {
+          msg: "kodo.com"
+        }
+      },
+      template: `
+        <div>
+          <span>我是子组件{{msg}}</span>
+          <span><slot></slot></span>
+        </div>
+      `
+    })
+    app.component("Foo", {
+      template: `
+        <div>
+          <span>Hello,World</span>
+          <span>
+            <slot></slot>
+          </span>
+        </div>
+      `
+    })
+    app.component("Bar", {
+      template: `
+      <div>
+        <slot></slot>
+      </div>
+      `
+    })
+    // 插槽默认值写法
+    app.component("Foo", {
+      template: `
+        <div>
+          你选择了<slot><span style="color:green">Vue</span></slot>
+        </div>
+      `
+    })
+    // 具名插槽的使用
+    app.component("Frame", {
+      template: `
+        <div>
+          <slot name="one"></slot>
+          <div>2.react</div>
+          <slot name="two"></slot>
+        </div>
+      `
+    })
+    app.mount("#app")
+  </script>
+</body>
+
+</html>

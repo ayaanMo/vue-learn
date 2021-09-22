@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>绑定事件详讲(方法和参数、事件修饰符、按键鼠标)</title>
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          count: 0,
+          bubblingCount: 0
+        }
+      },
+      methods: {
+        click(event) {
+          console.log(event);
+          this.count++;
+        },
+        doubleClick(num, event) {
+          console.log(event);
+          console.log(event.target);
+          this.count += num;
+        },
+        handleClick() {
+          alert(1);
+        },
+        buttonClick() {
+          alert(0);
+          this.bubblingCount++;
+        },
+        handleKeyDown() {
+          console.log("KeyDown....");
+        },
+        handleMouse() {
+          alert("MouseClick....")
+        }
+      },
+      /* 
+        1.方法和参数：如果想在一个模板一次触发两个事件方法，需要用逗号隔开，然后每个事件后面必须加上()才能起到作用；
+        2.事件修饰符：阻止事件冒泡stop(@click.stop)、self点到自己的时候才触发(@click.self)、阻止默认事件prevent(@click.prevent)
+          capture修饰符改成捕获模式，默认都是冒泡模式，从下到上，使用capture是从上到下、once修饰符：事件只执行一次；passive修饰符
+        3. 常用的键盘修饰符@keydown.enter/tab/delete/esc/up/down/left/right
+        4. 常用鼠标修饰符 left/right/middle
+      */
+      template: `
+        <div>
+          <h1>一、方法和参数</h1>
+          <h2>{{count}}</h2>
+          <button @click="click">点一下</button>
+          <button @click="doubleClick(2,$event)">点一下</button>
+          <button @click="click($event),doubleClick(2,$event)">点一下</button>
+        </div>
+        <div>
+          <h1>二、事件修饰符</h1>
+          <div @click="handleClick">
+            <h2 @click="buttonClick">事件冒泡:{{bubblingCount}}</h2>
+          </div>
+          <div @click="handleClick">
+            <h2 @click.stop="buttonClick">stop修饰符：{{bubblingCount}}</h2>
+          </div>
+          <div @click.self="handleClick">
+            我是最外层div
+            <h2 @click="buttonClick">self修饰符：{{bubblingCount}}</h2>
+          </div>
+          <div @click.capture="handleClick">
+            <h2 @click="buttonClick">capture修饰符：{{bubblingCount}}</h2>
+          </div>
+          <div @click.self="handleClick">
+            我是最外层div
+            <h2 @click.once="buttonClick">once修饰符：{{bubblingCount}}</h2>
+          </div>
+        </div>
+        <div>
+          <h1>三、按键鼠标修饰符</h1>
+          <label>键盘事件</label><input @keydown="handleKeyDown"/><br/>
+          <label>回车事件</label><input @keydown.enter="handleKeyDown"/>
+          <h2 @click.right.prevent="handleMouse">ayaan.com 哎呦不错哦</h2>
+        </div>
+      `
+    });
+    app.mount("#app");
+  </script>
+</body>
+
+</html>

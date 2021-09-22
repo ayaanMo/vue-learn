@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vue生命周期创建、渲染、更新、销毁</title>
+  <script src="https://unpkg.com/vue@next"></script>
+</head>
+
+<body>
+  <div id="app"></div>
+  <script>
+    const app = Vue.createApp({
+      data() {
+        return {
+          message: 'ayaan.com'
+        }
+      },
+      methods: {
+        click() {
+          this.message = this.message === 'ayaan.com' ? '哎呦不错' : 'ayaan.com'
+        }
+      },
+      beforeCreate() {
+        console.log("在实例生成之前会自动执行");
+      },
+      created() {
+        console.log("在实例生成之后会自动执行的函数");
+      },
+      beforeMount() {
+        console.log("在模板渲染完成之前执行的函数");
+      },
+      mounted() {
+        console.log("在模板渲染完成之后执行的函数");
+      },
+      // beforeUpdate和updated生命周期函数是在data发生改变的时候才会被执行，一个是在变化之前一个是在变化之后
+      beforeUpdate() {
+        console.log("beforeUpdate---当data中的数据变化时，会立即自动执行的函数");
+        console.log(document.getElementById('app').innerHTML);
+      },
+      updated() {
+        console.log("updated---当data中的数据发生改变，页面重新渲染完后，会自动执行的函数");
+        console.log(document.getElementById('app').innerHTML);
+      },
+      // beforUnmount和unmounted 生命周期函数
+      beforeUnmount() {
+        console.log('销毁前执行---当Vue应用失效时，会自动执行的函数');
+        console.log(document.getElementById('app').innerHTML)
+      },
+      unmounted() {
+        console.log('销毁后执行---当Vue应用失效时，且DOM完全销毁之后，会自动执行');
+        console.log(document.getElementById('app').innerHTML)
+      },
+      template: `<h2 v-on:click=click>{{message}}</h2>`
+    })
+    app.mount("#app");
+  </script>
+</body>
+
+</html>
