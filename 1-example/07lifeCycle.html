@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Vue生命周期创建、渲染、更新、销毁</title>
-  <script src="https://unpkg.com/vue@next"></script>
-</head>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue生命周期创建、渲染、更新、销毁</title>
+    <script src="https://unpkg.com/vue@next"></script>
+  </head>
 
-<body>
-  <div id="app"></div>
-  <script>
+  <body>
+    <div id="app"></div>
+    <script>
     const app = Vue.createApp({
       data() {
         return {
@@ -24,39 +24,43 @@
         }
       },
       beforeCreate() {
-        console.log("在实例生成之前会自动执行");
+        console.log("1.在实例生成之前会自动执行-beforeCreate");
+        console.log(document.getElementById('app').innerHTML,"beforeCreate渲染后的DOM");
       },
       created() {
-        console.log("在实例生成之后会自动执行的函数");
+        console.log("2.在实例生成之后会自动执行的函数-created");
+        console.log(document.getElementById('app').innerHTML,"created渲染后的DOM");
       },
       beforeMount() {
-        console.log("在模板渲染完成之前执行的函数");
+        console.log("3.在模板渲染完成之前执行的函数-beforeMount");
+        console.log(document.getElementById('app').innerHTML,"beforeMount渲染后的DOM");
       },
       mounted() {
-        console.log("在模板渲染完成之后执行的函数");
+        console.log("在模板渲染完成之后执行的函数-mounted");
+        console.log(document.getElementById('app').innerHTML,"mounted渲染后的DOM");
       },
       // beforeUpdate和updated生命周期函数是在data发生改变的时候才会被执行，一个是在变化之前一个是在变化之后
       beforeUpdate() {
-        console.log("beforeUpdate---当data中的数据变化时，会立即自动执行的函数");
-        console.log(document.getElementById('app').innerHTML);
+        console.log("4.当data中的数据变化时，会立即自动执行的函数-beforeUpdate");
+        console.log(document.getElementById('app').innerHTML,"beforeUpdate渲染后的DOM");
       },
       updated() {
-        console.log("updated---当data中的数据发生改变，页面重新渲染完后，会自动执行的函数");
-        console.log(document.getElementById('app').innerHTML);
+        console.log("5.当data中的数据发生改变，页面重新渲染完后，会自动执行的函数-updated");
+        console.log(document.getElementById('app').innerHTML,"updated渲染后的DOM");
       },
       // beforUnmount和unmounted 生命周期函数
       beforeUnmount() {
-        console.log('销毁前执行---当Vue应用失效时，会自动执行的函数');
-        console.log(document.getElementById('app').innerHTML)
+        console.log('6.销毁前执行---当Vue应用失效时，会自动执行的函数-beforeUnmount');
+        console.log(document.getElementById('app').innerHTML,"beforeUnmount渲染后的DOM")
       },
       unmounted() {
-        console.log('销毁后执行---当Vue应用失效时，且DOM完全销毁之后，会自动执行');
-        console.log(document.getElementById('app').innerHTML)
+        console.log('7.销毁后执行---当Vue应用失效时，且DOM完全销毁之后，会自动执行--unmounted');
+        console.log(document.getElementById('app').innerHTML,"unmounted渲染后的DOM")
       },
       template: `<h2 v-on:click=click>{{message}}</h2>`
     })
     app.mount("#app");
   </script>
-</body>
+  </body>
 
 </html>

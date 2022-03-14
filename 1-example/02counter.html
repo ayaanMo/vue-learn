@@ -1,30 +1,31 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<head>
-  <meta charset="UTF-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <script src="https://unpkg.com/vue@next"></script>
-  <title>计数器</title>
-</head>
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="https://unpkg.com/vue@next"></script>
+    <title>计数器</title>
+  </head>
 
-<body>
-  <div id="app"></div>
-  <script>
-    Vue.createApp({
-      data() {
-        return { counter: 1 }
-      },
-      mounted() {
-        console.log('页面加载完成后-自动执行');
-        setInterval(() => {
-          this.counter += 1;
-        }, 1000);
-      },
-      template: '<div>{{counter}}</div>'
-    }).mount('#app')
+  <body>
+    <div id="app"></div>
+    <script>
+   Vue.createApp({
+     data(){
+       return {counted:1}
+     },
+     mounted(){
+       console.log("页面加载完直接打印");
+       console.log(this);
+       setInterval(()=>{
+          this.counted+=1;
+       },1000)
+     },
+     template:'<div>{{counted}}</div>'
+   }).mount('#app')
   </script>
-</body>
+  </body>
 
 </html>
